@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -56,18 +56,45 @@
       transform: translateY(-3px); /* account for the height of the clock hands */
     }
 
-    .hand {
-      width: 50%;
-      height: 6px;
-      background: black;
-      position: absolute;
-      top: 50%;
-    }
+      .hand {
+          width: 50%;
+          height: 6px;
+          background: black;
+          position: absolute;
+          top: 50%;
+          /*transform-origin: 50% default değer.*/
+          transform-origin: 100%;
+          transform: rotate(90deg);
+          transition: all 0.05s;
+          transition-timing-function: cubic-bezier(0.1, 2.7, 0.58, 1);
+      }
 
   </style>
 
   <script>
 
+      const secondHand = document.querySelector('.second-hand');
+      const minsHand = document.querySelector('.min-hand');
+      const hourHand = document.querySelector('.hour-hand');
+
+      function setDate() {
+          const now = new Date();
+
+          const seconds = now.getSeconds();
+          const secondDegrees = ((seconds / 60) * 360) + 90; //başlangıçta 90deg olarak ayarladğımız için +90 ekledik doğru açıda olabilmesi için                                                                                
+          secondHand.style.transform = `rotate(${secondDegrees}deg)`;
+
+          const mins = now.getMinutes();
+          const minDegrees = ((mins / 60) * 360) + 90;
+          minsHand.style.transform = `rotate(${minDegrees}deg)`;
+
+
+          const hours = now.getHours();
+          const hoursDegrees = ((hours / 60) * 360) + 90;
+          hourHand.style.transform = `rotate(${hoursDegrees}deg)`;
+      }
+
+      setInterval(setDate,1000);
 
   </script>
 </body>
